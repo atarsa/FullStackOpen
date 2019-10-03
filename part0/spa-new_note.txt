@@ -1,0 +1,9 @@
+title New Note - Single Page App 
+
+
+browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+server-->browser: {"message":"note created"}
+
+note over browser:
+new note added to the list
+end note
