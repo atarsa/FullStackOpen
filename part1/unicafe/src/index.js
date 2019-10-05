@@ -7,23 +7,38 @@ const Button = ({onClick, text}) => (
     {text}
     </button>
 )
+
 // Statistics Component
-const Statistics = ({good, neutral, bad}) => (
+const Statistics = ({good, neutral, bad} ) => {
+  const all = good + neutral + bad
+  
+  const average = () => {
+    return (good * 1 - bad * 1) / all
+  }
+  
+  const positive = () => {
+    return (good / all * 100) 
+  }
+
+  return(
   <>
     <h3>Statistics</h3>
     <p>good {good}</p>
     <p>neutral {neutral}</p>
     <p>bad {bad}</p>
+    <p>all {all}</p>
+    <p>average {average()}</p>
+    <p>positive {positive()}%</p>
   </>
 )
-
+}
 
 const App = (props) => {
   // save clicks of each button to own state
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
-
+  
   // helpers function
   const handleGoodFeedback = () => {
     return setGood(good + 1)
@@ -43,7 +58,10 @@ const App = (props) => {
       <Button onClick={handleGoodFeedback}  text='good' />
       <Button onClick={handleNeutralFeedback}  text='neutral'/>
       <Button onClick={handleBadFeedback} text='bad' />
-      <Statistics good={good} neutral={neutral} bad={bad} />
+      <Statistics 
+        good={good}
+        neutral={neutral}
+        bad={bad} />
     </div>
   )
 }
