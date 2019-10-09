@@ -13,13 +13,21 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault()
-
-    const nameObject = {
-      name: newName,
-      id: persons.length + 1
-    }
-    setPersons(persons.concat(nameObject))
-    setNewName('')
+   
+    // check if name already on the list
+    if (persons.some(person => person.name === newName.trim())){
+      alert(`${newName} is already added to phonebook`)
+      
+    } else {
+      // add new name
+      const nameObject = {
+        name: newName.trim(),
+        id: persons.length + 1
+      }
+     
+      setPersons(persons.concat(nameObject))
+      setNewName('')
+    }    
   } 
 
   const rows = () =>     
@@ -30,13 +38,7 @@ const App = () => {
         />
       
     )
-  // const rows = () => persons.map(person => 
-  //     <Entry 
-  //       key={person.id} 
-  //       person={person}
-  //     />
-  //   )
-  
+ 
       
 
   return (
