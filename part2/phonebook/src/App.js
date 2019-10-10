@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import Entry from './components/Entry'
+import Entries from './components/Entries'
+import PersonForm from './components/PersonForm'
+import Filter from './components/Filter'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -52,46 +54,29 @@ const App = () => {
       setNewNumber('')
     }    
   } 
-
-  const rows = () =>     
-    entriesToShow.map(entry => 
-        <Entry 
-          key={entry.id}
-          person={entry}
-        />
-    )
        
-
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>Filter shown with:
-        <input 
-          value={filteredName}
-          onChange={handleFilterEntry}/>
-      </div>
+      
+      <Filter 
+        value={filteredName}
+        onChange={handleFilterEntry}
+      />
+      
       <h3>add a new entry</h3>
-      <form onSubmit={addEntry}>
-        <div>
-          name: <input 
-            value={newName}
-            onChange={handleNameChange}
-            />
-        </div>
-        <div>
-          number: <input 
-            value={newNumber}
-            onChange={handleNumberChange}
-            />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm 
+        onSubmit={addEntry}
+        newName={newName}
+        handleNameChange={handleNameChange}
+        newNumber={newNumber}
+        handleNumberChange={handleNumberChange}
+      />
+      
       <h2>Numbers</h2>
-      <ul>
-        {rows()}
-      </ul>
+      <Entries 
+        entriesToShow={entriesToShow} 
+      />
 
     </div>
   )

@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Entry = ( {person} ) =>  (
-    <li>{person.name} {person.number}</li>
+const Entry = ( {entry} ) =>  (
+    <li>{entry.name} {entry.number}</li>
 )
 
 
