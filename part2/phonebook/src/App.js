@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import personService from './services/persons'
 
 import Entries from './components/Entries'
 import PersonForm from './components/PersonForm'
@@ -7,27 +7,21 @@ import Filter from './components/Filter'
 
 
 const App = () => {
-  const [persons, setPersons] = useState([])
+  const [ persons, setPersons ] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
-  const [ filteredName, setFilteredName] = useState('')
+  const [ filteredName, setFilteredName ] = useState('')
   const [ showAll, setShowAll ] = useState(true)
   
-  const hook = (() => {
-    console.log('effect')
-    axios
-    .get('http://localhost:3001/persons')
-    .then( response => {
-      console.log('promise fulfilled')
-      setPersons(response.data)
-    }
-      
-    )
-  })
+  useEffect(() => {
+    personService
+      .getAll()
+      .then( initialPersons => {
+        setPersons(initialPersons)
+      })
+  }, [])
 
-  useEffect(hook, [])
-  console.log('render', persons.length, 'persons')
-
+  
   const entriesToShow = showAll
     ? persons
     : persons.filter( person =>     person.name.toLowerCase().indexOf(filteredName.toLowerCase()) !== -1
@@ -58,13 +52,16 @@ const App = () => {
       // add new name
       const nameObject = {
         name: newName.trim(),
-        number: newNumber.trim(),
-        id: persons.length + 1
+        number: newNumber.trim()
       }
-     
-      setPersons(persons.concat(nameObject))
-      setNewName('')
-      setNewNumber('')
+      
+      personService
+        .create(nameObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
     }    
   } 
        
@@ -88,7 +85,8 @@ const App = () => {
       
       <h2>Numbers</h2>
       <Entries 
-        entriesToShow={entriesToShow} 
+        entriesToShow={entriesToShow}
+        setPersons={setPersons}         
       />
 
     </div>
