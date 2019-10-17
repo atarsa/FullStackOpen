@@ -69,17 +69,12 @@ const App = () => {
               setMessage(`Information of ${person.name} has already been removed from server`)
               setMsgClasses('notification error')
             })
-        
-        
-        
-        
+                
         setTimeout(() => {
           setMessage(null)
           setMsgClasses('')
         },5000)
       }
-
-      
       
     } else {
       // add new name
@@ -94,16 +89,23 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+
+          setMessage(`Added ${newName} `)
+          setMsgClasses('notification successful')
+          setTimeout(() => {
+            setMessage(null)
+            setMsgClasses('')
+          },5000)
         })
-
-      setMessage(`Added ${newName} `)
-      setMsgClasses('notification successful')
-        setTimeout(() => {
-          setMessage(null)
-          setMsgClasses('')
-        },5000)
+        .catch(error => {
+          setMessage(error.response.data.error)
+          setMsgClasses('notification error')
+          setTimeout(() => {
+            setMessage(null)
+            setMsgClasses('')
+          },5000)
+        })    
     }
-
   } 
        
   return (
